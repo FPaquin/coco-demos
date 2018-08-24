@@ -1,0 +1,8 @@
+# Matlab autosave files
+*.asv
+# Matlab exported variables
+*.mat
+# Matlab figures
+*.fig
+# coco-generated 'data' subdirectories
+**/data/
