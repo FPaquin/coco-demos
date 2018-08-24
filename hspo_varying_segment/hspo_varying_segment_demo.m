@@ -13,7 +13,7 @@
 %%% controlled segments
 %%% 
 
-%% 4-segment PO: Initial solution guess (ODE45)
+%% Section 1 | 4-segment PO: Initial solution guess (ODE45)
 % Initial parameters [alpha, beta]
 p0 = [1.5; 0.2];
 % Starting point of the first segment
@@ -37,7 +37,7 @@ t04 = t3(end);
 [t4,y4] = ode45(@(t,y)Oscillator.f(y,p0,'controlled'),[t04 t04+10],y04,opt3);
 
 
-%% Figure 1: Initial solution guess (ODE45)
+% Figure 1: Initial solution guess (ODE45)
 figure(1); clf; hold on;
 title 'Initial solution guess (ODE45)';
 xlabel 'x'; ylabel 'v';
@@ -48,7 +48,7 @@ plot(y4(:,2),y4(:,1),'blue');
 hold off;
 
 
-%% 4-segment PO: Setting up the problem in COCO
+%% Section 2 | 4-segment PO: Setting up the problem in COCO
 % 2 modes: uncontrolled, controlled
 % 2 boundaries: mplus, mminus
 % no resets
@@ -74,7 +74,7 @@ prob = coco_add_event(prob, 'SL', 'sliding_begins', 0);
 % Do the magic
 coco(prob, 'fourseg1', [], 1, 'al', [1.0 1.6]);
 
-%% Figure 2: Branch of 4-segment POs
+% Figure 2: Branch of 4-segment POs
 bd    = coco_bd_read('fourseg1'); % Extract bifurcation data
 labs  = coco_bd_labs(bd);         % Extract labels
 labSL = coco_bd_labs(bd, 'SL'); % 'sliding_begins' event
@@ -108,7 +108,7 @@ for i=1:data.hspo_orb.nsegs
 end
 
 
-%% 6-segment PO: starting from the point where sliding begins (SL)
+%% Section 3 | 6-segment PO: starting from the point where sliding begins (SL)
 % At this point, two new 'sliding' segments are inserted between the 'controlled'
 % and 'uncontrolled' segments.
 % Construction of the initial solution
@@ -116,12 +116,12 @@ end
 p0 = solSL.p;           % Get alpha and beta
 x1 = solSL.xbp{1,1};    t1 = solSL.tbp{1,1};    % 1st segment: 1st segment of solSL
 x2 = solSL.xbp{1,2};    t2 = solSL.tbp{1,2};    % 2nd segment: 2nd segment of solSL
-x3 = [solSL.xbp{1,2}(end,:);solSL.xbp{1,2}(end,:)]; % Sliding mode, single point segment
-t3 = [0;0.1];
+x3 = [solSL.xbp{1,2}(end,:)];      t3 = [0];    % 3rd segment: single point (sliding)
+
 x4 = solSL.xbp{1,3};    t4 = solSL.tbp{1,3};    % 4th segment: 3rd segment of solSL
 x5 = solSL.xbp{1,4};    t5 = solSL.tbp{1,4};    % 5th segment: 4th segment of solSL
-x6 = [solSL.xbp{1,4}(end,:);solSL.xbp{1,4}(end,:)]; % Sliding mode, single point segment
-t6 = [0;0.1];
+x6 = [solSL.xbp{1,4}(end,:)];      t6 = [0];    % 6th segment: single point (sliding)
+
 modes  = {'uncontrolled' 'controlled' 'sliding' ...
           'uncontrolled' 'controlled' 'sliding'};
 events = {'mplus'        'mplus'      'escape' ...
@@ -147,7 +147,7 @@ prob = coco_add_event(prob, 'CD', 'ctrl_disappears', 0);
 coco(prob, 'sixseg1', [], 1, 'al', [0.64 p0(1)]);
 
 
-%% Figure 3: Branch of 6-segment POs
+% Figure 3: Branch of 6-segment POs
 bd    = coco_bd_read('sixseg1');  % Extract bifurcation data
 labs  = coco_bd_labs(bd);         % Extract labels
 labCD = coco_bd_labs(bd, 'CD');
@@ -179,7 +179,7 @@ for lab=labs
 end
 
 
-%% 4-segment PO: starting from the point where sliding mode 'absorbes' the 'controlled' segments
+%% Section 4 | 4-segment PO: starting from the point where sliding mode 'absorbes' the 'controlled' segments
 [solCD,dataCD] = hspo_read_solution('', 'sixseg1', labCD); 
 p0 = solCD.p;        % Parameters
 x1 = solCD.xbp{1,1}; t1 = solCD.tbp{1,1};  % 1st seg = 1st seg from solCD (uncontrolled)
@@ -199,7 +199,7 @@ prob = ode_isol2hspo(coco_prob(), '', ...
 % Do the magic
 coco(prob, 'fourseg2', [], 1, 'al', [0.1 p0(1)]);
 
-%% Figure 4: Branch of 4-segment POs
+% Figure 4: Branch of 4-segment POs
 bd   = coco_bd_read('fourseg2'); % Extract bifurcation data
 labs = coco_bd_labs(bd);         % Extract labels
 figure(4); clf;

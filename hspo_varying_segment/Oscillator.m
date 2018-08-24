@@ -20,7 +20,7 @@ methods(Static)
             y(2,:) = v;
           case 'sliding'
             y(1,:) = zeros(1,numel(v));
-            y(2,:) = -v;
+            y(2,:) = v;
         end
     end
     function y = events(x, p, event)
