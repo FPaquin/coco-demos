@@ -9,11 +9,13 @@ Since the [Recipes for Continuation book][url-recipes] contains many entry level
 ## How to contribute?
 If you have a demonstration you would like to share, you should:
 
+0. Send me a e-mail (`gyebro at mm.bme.hu`) with your GitHub username, and I'll add you as a collaborator.
 1. Clone this repository to create a local copy `git clone https://github.com/Gyebro/coco-demos.git`
 2. Create a branch for yourself (every contributor should have his/her branch where his/her demonstrations are developed). `git checkout -b YourBranchName`
 3. Prepare your demo(s) on your branch in subfolders (do not directly place files in the root of the repository), you can stage your changes and save them as one or more commits (`git add ...` then `git commit -m "Description of changes"`).
 4. Once you are done, make sure to push your changes to the origin. `git push -u origin YourBranchName`.
-5. If your contribution is ready, [create a pull request][url-pull] to merge your work into the main `master` branch.
+5. If your contribution is ready, [create a pull request][url-pull] to initiate merging your work into the main `master` branch.
+Alternatively: if you are not (yet) a collaborator, you can [fork the repository and propose changes similarly via pull requests][url-fork-explained].
 
 *Note: if you are not familiar with Git*, consider using a GUI client for creating your branch, commiting changes, etc. Easy to use clients are: [GitKraken][url-gitkraken] and [SourceTree][url-sourcetree].
 
@@ -44,3 +46,4 @@ Generally contributors should work on their demos using their branches and initi
 [url-gyebro-branch]: https://github.com/Gyebro/coco-demos/tree/gyebro
 [url-gyebro-commits]: https://github.com/Gyebro/coco-demos/commits/gyebro
 [url-gyebro-pull]: https://github.com/Gyebro/coco-demos/pull/1
+[url-fork-explained]: https://github.com/MarcDiethelm/contributing/blob/master/README.md
