@@ -19,8 +19,13 @@ p0 = [1.5; 0.2];
 % Starting point of the first segment
 y01 = [-1, -0.87];
 t01 = 0;
+% Anonymous function helper (used for event functions)
+f = @(varargin) varargin{:};
+% Event functions for ode45
+ode_event_mplus  = @(t,y)f(y(1)-1,1,0); % v == +1
+ode_event_mminus = @(t,y)f(y(1)+1,1,0); % v == -1
 % First segment: uncontrolled, until the M+ boundary is hit from below
-opt1 = odeset('Events',@ode_event_mplus,'RelTol',1e-13);
+opt1 = odeset('Events',ode_event_mplus,'RelTol',1e-13);
 [t1,y1] = ode45(@(t,y)Oscillator.f(y,p0,'uncontrolled'),[t01 t01+10],y01,opt1);
 % Second segment: controlled (again until the M+ boundary from above)
 y02 = [y1(end,1)+0.001; y1(end,2)];
@@ -29,7 +34,7 @@ t02 = t1(end);
 % Third segment: uncontrolled (until M- boundary is hit from above)
 y03 = [y2(end,1)-0.001; y2(end,2)];
 t03 = t2(end);
-opt3 = odeset('Events',@ode_event_mminus,'RelTol',1e-13);
+opt3 = odeset('Events',ode_event_mminus,'RelTol',1e-13);
 [t3,y3] = ode45(@(t,y)Oscillator.f(y,p0,'uncontrolled'),[t03 t03+10],y03,opt3);
 % Fourth segment: controlled (until M- boundary is hit from below)
 y04 = [y3(end,1)-0.001; y3(end,2)];
